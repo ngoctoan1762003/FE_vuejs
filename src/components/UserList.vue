@@ -2,7 +2,7 @@
     <div  class="p-10" @click="clickOutSide()">
 
     <div class="flex justify-between items-center">
-        <input class="border-2 border-gray-200 text-gray-200 rounded-md pl-5 w-60 h-12 flex items-center" placeholder="Find User" v-model="searchQuery">
+        <input class="border-2 border-gray-200 text-gray-600 rounded-md pl-5 w-60 h-12 flex items-center" placeholder="Find User" v-model="searchQuery">
         <button class="bg-sky-700 p-3 rounded-md text-white font-medium h-12 before:content" @click="addNewUser()">
             Create New
         </button>
@@ -17,14 +17,15 @@
             <div class="p-2 text-left w-[20%]">GENDER</div>
             <div class="p-2 text-left w-[20%]"></div>
         </div>
-        <div  v-for="(user) in users" :key="user.id" class="border-b-2">
-            <UserCard :user="user" class="w-full" @showPopup="showPopup"/>
+        <div  v-for="(user) in filteredUsers" :key="user.id" class="border-b-2">
+            <UserCard :user="user" class="w-full card" @showPopup="showPopup" @onDelete="onDelete"/>
         </div>
     </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios';
 import UserCard from './UserCard.vue';
 export default{
     components: {
@@ -33,25 +34,27 @@ export default{
     data(){
         return{
             searchQuery: "",
+            users: []
         }
     },
     props: {
-        users: Array, 
+        //users: Array, 
     },
     computed:{
         filteredUsers() {
             return this.users.filter((user) => {
-                for(key in user){
-                    if(!user[key]) continue
-                    if(user[key].toString().toLowerCase().includes(this.searchQuery)) return user
-                }
+                if(user.name.toString().toLowerCase().includes(this.searchQuery)) return user
+                // for(key in user){
+                //     if(!user[key]) continue
+                //     if(user[key].toString().toLowerCase().includes(this.searchQuery)) return user
+                // }
             });
         },
     },
     methods: {
         clickOutSide(){
-            console.log('oke')
-            this.users.forEach(u => u.isHidden = 'hidden')
+            var popups = document.querySelectorAll('.popup');
+            popups.forEach(p => p.classList.add('hidden'))
         },
         addNewUser(){
             this.users.push({
@@ -67,36 +70,52 @@ export default{
             })
         },
         closeAllPopup(index) {
-            // var popups = document.querySelectorAll('td.relative > div');
-            // popups.forEach(p => p.style.display = "none");
-            this.users.forEach(u =>{ 
-                if(u.id !== index)
-            u.isHidden = 'hidden'})
+            this.users.forEach(p => {
+                if(p.id != index)
+                document.querySelector('#action-'+p.id).classList.add('hidden')
+            }
+            );
         },
         showPopup(id) {
-            console.log('click')
-            console.log(id)
             this.closeAllPopup(id)
-            this.users.map(u=>{
-                if(u.id === id){
-                    console.log(u.isHidden)
-                    if(u.isHidden === 'hidden'){
-                        u.isHidden='block'
-                    }
-                    else if(u.isHidden === 'block'){
-                        u.isHidden='hidden'
-                    }
-                    console.log(this.users)
-                }
-            })
+            var popup = document.querySelector("#action-" + id)
+            popup.classList.toggle('hidden')
         },
         onDelete(id) {
-            this.filterUser(id);
+            this.$emit('deleteUser', id);
             this.closeAllPopup();
         },
-        filterUser(id) {
-            this.users = this.users.filter(u => u.id !== id)
-        }
     },
+    beforeMount(){
+        try{
+            const token = JSON.parse(localStorage.getItem('accessToken'));
+        }
+        catch(e) {
+            console.log('error')
+            localStorage.removeItem('accessToken');
+            this.$router.push('/login');
+        }
+
+    },
+    mounted() {
+        const pageNumber = this.$route.query.query || 1;
+        const PAGE_SIZE = this.$route.query.paging || 10;
+        const url = `http://localhost:3000/user?page=${pageNumber}&paging=${PAGE_SIZE}`
+        axios({
+            method: 'get',
+            url: url,
+            Authorization: JSON.parse(localStorage.getItem('accessToken'))
+        })
+        .then(response=>{
+            this.users = response.data
+            console.log(this.users,response.data)
+        })
+        .catch((e) => {
+            console.log('error')
+            localStorage.removeItem('accessToken');
+            this.$router.push('/login');
+        })
+        this.clickOutSide()
+    }
 }
 </script>

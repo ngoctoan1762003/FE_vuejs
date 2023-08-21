@@ -1,9 +1,9 @@
 <template>
-    <div class="flex justify-center flex-col items-center">
+    <div class="flex justify-center flex-col items-center h-[100vh]">
         <form action="" class="flex flex-col form gap-5 justify-center items-center w-[500px]">
             <div class="text-3xl font-bold">Sign up for new account</div>
             <input v-model="username" type="text" class="h-[50px] border-2 w-full rounded-md pl-5" placeholder="Username">
-            <input v-model="password" type="text" class="h-[50px] border-2 w-full rounded-md pl-5" placeholder="Password">
+            <input v-model="password" type="password" class="h-[50px] border-2 w-full rounded-md pl-5" placeholder="Password">
             <input v-model="age" type="text" class="h-[50px] border-2 w-full rounded-md pl-5" placeholder="Age">
             <input v-model="email" type="text" class="h-[50px] border-2 w-full rounded-md pl-5" placeholder="Email">
             <input v-model="gender" type="text" class="h-[50px] border-2 w-full rounded-md pl-5" placeholder="Gender">
