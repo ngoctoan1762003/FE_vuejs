@@ -21,6 +21,12 @@
             <UserCard :user="user" class="w-full card" @showPopup="showPopup" @onDelete="onDelete"/>
         </div>
     </div>
+    <!-- <b-pagination
+      v-model="user"
+      :total-rows="5"
+      :per-page="5"
+      aria-controls="my-table"
+    ></b-pagination> -->
     </div>
 </template>
 
@@ -98,23 +104,27 @@ export default{
 
     },
     mounted() {
-        const pageNumber = this.$route.query.query || 1;
+        let pageNumber = this.$route.query.query || 1;
+        pageNumber = pageNumber.toString()
         const PAGE_SIZE = this.$route.query.paging || 10;
-        const url = `http://localhost:3000/user?page=${pageNumber}&paging=${PAGE_SIZE}`
+        console.log(pageNumber, PAGE_SIZE)
+        const urlE = `http://localhost:3000/user?page=${pageNumber}&paging=${PAGE_SIZE}`
+        const authorization = `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}`
+        console.log(authorization)
+        console.log(urlE)
         axios({
-            method: 'get',
-            url: url,
-            Authorization: JSON.parse(localStorage.getItem('accessToken'))
+            method:'GET',
+            url: `http://localhost:3000/user?page=${pageNumber}&paging=${PAGE_SIZE}`,
+            headers:
+            {
+                Authorization:authorization
+            }
         })
-        .then(response=>{
+        .then(response => {
+            console.log(response)
             this.users = response.data
-            console.log(this.users,response.data)
         })
-        .catch((e) => {
-            console.log('error')
-            localStorage.removeItem('accessToken');
-            this.$router.push('/login');
-        })
+        .catch(err => console.log(err))
         this.clickOutSide()
     }
 }

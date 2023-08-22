@@ -3,6 +3,7 @@ import Login from '@/components/FormLogin.vue';
 import Signup from '@/components/FormSignup.vue';
 import Home from '@/components/Home.vue';
 import UserDetail from '@/components/UserDetail.vue';
+import Counter from '@/components/Counter.vue';
 
 const routes = [
     {
@@ -25,7 +26,11 @@ const routes = [
         name: 'UserDetail',
         component: UserDetail
     },
-
+    {
+        path: '/counter',
+        name: 'Counter',
+        component: Counter
+    },
 ]
 
 const router = createRouter({
@@ -35,7 +40,7 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
     console.log(to);
-    if(to.name !== 'Login' && !localStorage.getItem('accessToken')) return '/login'
+    if(to.name !== 'Login' && !localStorage.getItem('accessToken') && to.name !== 'Signup') return '/login'
     if(to.name === 'Login' && localStorage.getItem('accessToken')) return '/'
 })
 

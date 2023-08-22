@@ -67,7 +67,8 @@ export default {
             });
         },
         toLogin(){
-            this.$emit('toLogin')
+            console.log(this.$route)
+            this.$router.push({ path: '/login' })
         }
     }
 }

@@ -68,10 +68,10 @@ export default {
             });
         },
         toSignup(){
-            this.$emit('toSignup');
+            this.$router.push('/signup')
         },
         logout() {
-            localStorage.removeItem('accessToken')
+            this.$router.push('/login')
         },
         toFogotPassword(){
             this.$emit('toForgotPassword');
