@@ -20,7 +20,7 @@ export default {
         submitEmail(){
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/auth/forgot-password',
+                url: `${import.meta.env.VITE_APP_BASE_URL}/auth/forgot-password`,
                 data: {
                     mailTo: this.email
                 }

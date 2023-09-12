@@ -21,26 +21,34 @@
             <UserCard :user="user" class="w-full card" @showPopup="showPopup" @onDelete="onDelete"/>
         </div>
     </div>
-    <!-- <b-pagination
-      v-model="user"
-      :total-rows="5"
-      :per-page="5"
-      aria-controls="my-table"
-    ></b-pagination> -->
+    <!-- <Pagination /> -->
+    <Paginate 
+        class="m-4" 
+        @handlePageChange="handlePageChange()"
+        @handleSizeChange="handleSizeChange()"
+        :size="users.length"
+    />
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import UserCard from './UserCard.vue';
+import Pagination from '@/components/Pagination.vue';
+import Paginate from '../Paginate.vue';
+
 export default{
     components: {
-        UserCard
+        UserCard,
+        Pagination,
+        Paginate
     },
     data(){
         return{
             searchQuery: "",
-            users: []
+            users: [],
+            pageNumber: 1,
+            pageSize: 2
         }
     },
     props: {
@@ -91,6 +99,12 @@ export default{
             this.$emit('deleteUser', id);
             this.closeAllPopup();
         },
+        handlePageChange(currentPage){
+            this.pageNumber = currentPage;
+        },
+        handleSizeChange(size){
+            this.pageSize = size;
+        }
     },
     beforeMount(){
         try{
@@ -104,17 +118,17 @@ export default{
 
     },
     mounted() {
-        let pageNumber = this.$route.query.query || 1;
-        pageNumber = pageNumber.toString()
-        const PAGE_SIZE = this.$route.query.paging || 10;
-        console.log(pageNumber, PAGE_SIZE)
-        const urlE = `http://localhost:3000/user?page=${pageNumber}&paging=${PAGE_SIZE}`
+        // let pageNumber = this.$route.query.query || 1;
+        // pageNumber = pageNumber.toString()
+        // const PAGE_SIZE = this.$route.query.paging || 10;
+        // console.log(pageNumber, PAGE_SIZE)
+        const urlE = `http://localhost:3000/user?page=${this.pageNumber}&paging=${this.pageSize}`
         const authorization = `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}`
         console.log(authorization)
         console.log(urlE)
         axios({
             method:'GET',
-            url: `http://localhost:3000/user?page=${pageNumber}&paging=${PAGE_SIZE}`,
+            url: `http://localhost:3000/user?page=${this.pageNumber}&paging=${this.pageSize}`,
             headers:
             {
                 Authorization:authorization

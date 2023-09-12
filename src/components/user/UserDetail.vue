@@ -49,8 +49,8 @@
 
 <script>
 import axios from 'axios'
-import SideBar from '../layouts/SideBar.vue';
-import NavBar from '../layouts/NavBar.vue';
+import SideBar from '@/layouts/SideBar.vue';
+import NavBar from '../../layouts/NavBar.vue';
 
 export default{
     data(){

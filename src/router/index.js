@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Login from '@/components/FormLogin.vue';
-import Signup from '@/components/FormSignup.vue';
+import Login from '@/components/auth/FormLogin.vue';
+import Signup from '@/components/auth/FormSignup.vue';
 import Home from '@/components/Home.vue';
-import UserDetail from '@/components/UserDetail.vue';
+import UserDetail from '@/components/user/UserDetail.vue';
 import Counter from '@/components/Counter.vue';
 
 const routes = [
@@ -31,6 +31,7 @@ const routes = [
         name: 'Counter',
         component: Counter
     },
+
 ]
 
 const router = createRouter({

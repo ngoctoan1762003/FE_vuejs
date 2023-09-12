@@ -1,47 +1,18 @@
 <template>
   <main>
-    <!-- <FormLogin 
-      v-if="status === 'login'" 
-      @toSignup = "toSignup"
-      @getUserList = "getUserList"
-      @toForgotPassword = "status='forgot-password'"
-    />
-    <FormSignup 
-      v-else-if="status === 'signup'" 
-      @toLogin = "toLogin"
-    />
-    <UserList v-if="status === 'user'" 
-      :users="users"
-      @deleteUser="deleteUser"
-    />
-    <ForgotPassword 
-      v-if="status === 'forgot-password'" 
-      @toResetPassword="status = 'reset-password'"
-    />
-    <ResetPassword 
-      v-if="status === 'reset-password'"
-    /> -->
     <router-view></router-view>
     <Notifications />
   </main>
 </template>
 
 <script>
-import FormLogin from './components/FormLogin.vue';
-import FormSignup from './components/FormSignup.vue';
-import UserList from './components/UserList.vue';
-import ForgotPassword from './components/ForgotPassword.vue';
-import ResetPassword from './components/ResetPassword.vue';
+import FormLogin from './components/auth/FormLogin.vue';
+import FormSignup from './components/auth/FormSignup.vue';
+import UserList from './components/user/UserList.vue';
+import ForgotPassword from './components/auth/ForgotPassword.vue';
+import ResetPassword from './components/auth/ResetPassword.vue';
 import axios from 'axios';
-import { ref } from 'vue';
 
-const tabs = [
-  FormLogin,
-  FormSignup,
-  UserList,
-]
-
-const currentTab = ref('FormLogin')
 
 export default {
   components: {
@@ -49,7 +20,8 @@ export default {
     FormSignup,
     UserList,
     ForgotPassword,
-    ResetPassword
+    ResetPassword,
+
 },
   data() {
     return {

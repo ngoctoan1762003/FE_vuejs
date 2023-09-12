@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import UserList from './UserList.vue';
+import UserList from './user/UserList.vue';
 import NavBar from '../layouts/NavBar.vue';
 import SideBar from '../layouts/SideBar.vue';
-import UserDetail from './UserDetail.vue';
+import UserDetail from './user/UserDetail.vue';
 
 export default{
     data(){
