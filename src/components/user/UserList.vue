@@ -122,13 +122,13 @@ export default{
         // pageNumber = pageNumber.toString()
         // const PAGE_SIZE = this.$route.query.paging || 10;
         // console.log(pageNumber, PAGE_SIZE)
-        const urlE = `http://localhost:3000/user?page=${this.pageNumber}&paging=${this.pageSize}`
+        const urlE = `http://${VITE_APP_BASE_URL}:3000/user?page=${this.pageNumber}&paging=${this.pageSize}`
         const authorization = `Bearer ${JSON.parse(localStorage.getItem('accessToken'))}`
         console.log(authorization)
         console.log(urlE)
         axios({
             method:'GET',
-            url: `http://localhost:3000/user?page=${this.pageNumber}&paging=${this.pageSize}`,
+            url: `http://${VITE_APP_BASE_URL}:3000/user?page=${this.pageNumber}&paging=${this.pageSize}`,
             headers:
             {
                 Authorization:authorization

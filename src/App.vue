@@ -43,7 +43,7 @@ export default {
       this.status = 'user'
       axios({
         method: 'get',
-        url: 'http://localhost:3000/user',
+        url: `http://${VITE_APP_BASE_URL}:3000/user`,
         Authorization: JSON.parse(localStorage.getItem('accessToken'))
       }).then(response=>{
         this.users = response.data

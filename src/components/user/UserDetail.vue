@@ -74,7 +74,7 @@ export default{
         console.log(this.id)
         axios({
             method: 'get',
-            url: `http://localhost:3000/user/id/${this.id}`
+            url: `http://${VITE_APP_BASE_URL}:3000/user/id/${this.id}`
         })
         .then((response) => {
             console.log(response);

@@ -38,7 +38,7 @@ export default {
         submit() {
             axios({
                 method: 'post',
-                url: 'http://localhost:3000/auth/login',
+                url: `http://${VITE_APP_BASE_URL}:3000/auth/login`,
                 data: {
                     username: this.username,
                     password: this.password
